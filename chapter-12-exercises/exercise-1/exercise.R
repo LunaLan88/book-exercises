@@ -1,34 +1,41 @@
 # Exercise 1: analyzing avocado sales with the `tidyr` package
 
 # Load necessary packages (`tidyr`, `dplyr`, and `ggplot2`)
-
-
+install.packages("tidyr")
+library("tidyr")
+library("dplyr")
+library("ggplot2")
 # Set your working directory using the RStudio menu:
 # Session > Set Working Directory > To Source File Location
+# setwd("~/Desktop/Info201/book-exercises/chapter-12-exercises/exercise-1")
 
 # Load the `data/avocado.csv` file into a variable `avocados`
 # Make sure strings are *not* read in as factors
-
-
+avocados <- read.csv("data/avocado.csv", stringsAsFactors = FALSE)
+View(avocados)
 # To tell R to treat the `Date` column as a date (not just a string)
 # Redefine that column as a date using the `as.Date()` function
 # (hint: use the `mutate` function)
-
+avocados <- avocados %>% 
+  mutate(Date = as.Date(Date))
 
 # The file had some uninformative column names, so rename these columns:
 # `X4046` to `small_haas`
 # `X4225` to `large_haas`
 # `X4770` to `xlarge_haas`
-
+avocados <- avocados %>% 
+  rename(small_haas = X4046, large_haas = X4225, xlarge_haas = X4770)
 
 # The data only has sales for haas avocados. Create a new column `other_avos`
 # that is the Total.Volume minus all haas avocados (small, large, xlarge)
-
+avocados <- avocados %>% 
+  mutate(other_avos = Total.Volume - small_haas - large_haas - xlarge_haas)
 
 # To perform analysis by avocado size, create a dataframe `by_size` that has
 # only `Date`, `other_avos`, `small_haas`, `large_haas`, `xlarge_haas`
-
-
+by_size <- avocados %>% 
+  select(Date, other_avos, small_haas, large_haas, xlarge_haas)
+View(by_size)
 # In order to visualize this data, it needs to be reshaped. The four columns
 # `other_avos`, `small_haas`, `large_haas`, `xlarge_haas` need to be 
 # **gathered** together into a single column called `size`. The volume of sales
@@ -36,8 +43,8 @@
 # `volume`. Create a new dataframe `size_gathered` by passing the `by_size` 
 # data frame to the `gather()` function. `size_gathered` will only have 3 
 # columns: `Date`, `size`, and `volume`.
-
-
+size_gathered <- gather(by_size, key = size, value = volume, -Date)
+View(size_gathered)
 # Using `size_gathered`, compute the average sales volume of each size 
 # (hint, first `group_by` size, then compute using `summarize`)
 
