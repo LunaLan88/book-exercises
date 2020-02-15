@@ -39,7 +39,7 @@ search_endpoint <- "search/repositories"
 # Search queries require a query parameter (for what to search for). Create a 
 # `query_params` list variable that specifies an appropriate key and value for 
 # the search term (you can search for anything you want!)
-query_params <- list(q = "graphics")
+query_params <- list("q" = "graphics")
 
 # Send a GET request to the `search_endpoint`--including your params list as the
 # `query`. Print the response to show that your request worked.
