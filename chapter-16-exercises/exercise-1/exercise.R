@@ -22,7 +22,7 @@ diamonds_sample <- sample_n(diamonds, 1000)
 # geometry yet)
 # What do you see? (What did you expect?)
 ggplot(data = diamonds_sample)
-
+View(diamonds_sample)
 # Draw a scatter plot (with point geometry) with for the `diamonds_sample` set, 
 # with the `carat` mapped to the x-position and `price` mapped to the y-position.
 ggplot(data = diamonds_sample) +
